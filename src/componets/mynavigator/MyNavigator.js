@@ -1,37 +1,47 @@
 import React from 'react';
-// import logo from '../../logo.svg';
+import './index.less'
 import { Layout, Menu } from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons'
+import {Link, withRouter} from 'react-router-dom'
+import logo from '../../assets/images/logo.png'
+import { UserOutlined, VideoCameraOutlined } from '@ant-design/icons'
 
-export default class MyNavigator extends React.Component{
+class MyNavigator extends React.Component{
 
   onClick=({ item, key, keyPath, domEvent })=>{
-      this.props.refreshSearchMode(key)
+      // this.props.refreshSearchMode(key)
   }  
 //   <img src={logo}  alt="logo" />
   render(){
     const { Sider } = Layout;  
     return ( 
-    <Sider breakpoint="lg" collapsedWidth="0">
-      <div className="logo" style={{ height: '32px', margin: '16px'}}>
-         
-      </div>
+      <Sider>
+      <div className="left-nav">
+      <Link to='/' className="left-nav-header">
+          <img src={logo} alt="logo"/>
+          <h1>旅客追踪</h1>
+        </Link>
       <Menu theme="dark" mode="inline" >
-        <Menu.Item key="1" icon={<UserOutlined />} onClick={this.onClick}>
-        QueryLocationRich获取旅客信息
+        <Menu.Item key="1" icon={<UserOutlined />} >
+              <Link to='/search'>
+                <span>信息查询</span>
+              </Link>
         </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />} onClick={this.onClick}>
-        QueryByFlight获取旅客信息 String flight1
-        </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />} onClick={this.onClick}>    
-         QueryById获取旅客信息
-        </Menu.Item>
-        <Menu.Item key="4" icon={<UserOutlined />} onClick={this.onClick}>
-         QueryTestHistory获取旅客信息
+        <Menu.Item key="2" icon={<VideoCameraOutlined />} >
+              <Link to='/webcam'>
+                <span>人脸识别</span>
+              </Link>
         </Menu.Item>
       </Menu>
-    </Sider>
+      </div>
+      </Sider>
+  
     )
   }
 }
 
+/*
+withRouter高阶组件:
+包装非路由组件, 返回一个新的组件
+新的组件向非路由组件传递3个属性: history/location/match
+ */
+export default withRouter(MyNavigator)

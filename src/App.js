@@ -1,38 +1,58 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import './App.css'
+import {BrowserRouter,Route, Switch,Redirect } from 'react-router-dom'
 // import PropTypes from 'prop-types';
 // import PubSub from 'pubsub-js'
-// import {link,Route} from 'react-router-dom'yarn 
 import MyNavigator from './componets/mynavigator/MyNavigator'
-import MySearch from './componets/mysearch/MySearch'
-import MyTable from './componets/mytable/MyTable'
-import { Layout} from 'antd';
+import WebCamWebAPI from './componets/webcam/WebCam'
+import Search from './pages/search/Search'
+import { Layout} from 'antd'
+import Header from './componets/header/index'
+
+
 
 
 export default class App extends React.Component{
 
- state={searchMode:'',
-        keyWord:''}
+ state={PhotoUploadVisible: false}
 
- refreshKeyWord = (keyWord) => this.setState({keyWord})
 
- refreshSearchMode = (searchMode) => this.setState({searchMode})
+ handleApplyPhoto =(imgObj)=>{
+   console.log('调用')
+ }
 
   render(){
     const {Content, Footer} = Layout;
+    const fileTypes=[{TYPE_CODE:1,TYPE_DESC:'说明'},{TYPE_CODE:2,TYPE_DESC:'TEST'}];
 
     return ( 
+    <BrowserRouter>
     <Layout>
-      <MyNavigator refreshSearchMode={this.refreshSearchMode}></MyNavigator>
+      <MyNavigator></MyNavigator>
       <Layout>
-        <MySearch refreshKeyWord={this.refreshKeyWord}></MySearch>
+      <Header></Header>
         <Content style={{ margin: '24px 16px 0' }}>
-          <MyTable keyWord={this.state.keyWord} searchMode={this.state.searchMode}></MyTable>
+             <Switch>
+               <Route path='/webcam' render={()=>(<WebCamWebAPI
+                    fileTypes={fileTypes}
+                    addFile={(imgObj) => {
+                        this.handleApplyPhoto(imgObj);
+                    }}
+                    onClose={() => {
+                        this.setState({
+                            PhotoUploadVisible: false
+                        })}}
+                    />)}
+                />  
+               <Route path='/search' component={Search}/>
+               <Redirect  to='/search'/>
+            </Switch>
+          
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </Layout>
   </Layout>
+  </BrowserRouter>
     )
   }
 }
-

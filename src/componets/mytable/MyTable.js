@@ -226,7 +226,7 @@ export default class App extends React.Component{
         url='http://47.97.121.21:8080/user/QueryById'
      }else if(searchMode==="4"){
         chedata ={id:newProps.keyWord}
-        url='http://47.97.121.21:8080/user/testHistoryQuery'
+        url='http://47.97.121.21:8080/user/HistoryQuery'
      }
 
     axios({
